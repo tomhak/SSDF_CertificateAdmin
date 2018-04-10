@@ -11,13 +11,12 @@ namespace SSDF_CertificateAdmin.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
-            ContextKey = "SSDF_CertificateAdmin.Models.ApplicationDbContext";
         }
 
         protected override void Seed(SSDF_CertificateAdmin.Models.ApplicationDbContext context)
         {
             //  This method will be called after migrating to the latest version.
-
+            AddUserAndRoles();
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
             //  to avoid creating duplicate seed data.
         }
@@ -61,4 +60,7 @@ namespace SSDF_CertificateAdmin.Migrations
             return success;
         }
     }
+
+
 }
+
