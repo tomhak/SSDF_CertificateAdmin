@@ -1,0 +1,27 @@
+﻿@model IEnumerable<Microsoft.AspNet.Identity.EntityFramework.IdentityRole>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Roler</h2>
+
+@Html.ActionLink("Skapa roll", "Create", "Role")
+
+<style type="text/css">
+    #tbrole,.c {
+        border:double;
+    }
+</style>
+
+<table id="tbrole">
+    <tr>
+        <tb class="c">Roll</tb>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td class="c">@item.Name</td>
+        </tr>
+    }
+</table>
+

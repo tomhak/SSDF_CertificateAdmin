@@ -1,0 +1,88 @@
+﻿@model SSDF_CertificateAdmin.ViewModels.CertificateViewModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>SSDF_Certificate</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CertificateDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CertificateDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Förnamn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Förnamn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Efternamn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Efternamn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Personnummer)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Personnummer)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OriginalPersNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OriginalPersNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CertifikatNummer)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CertifikatNummer)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Instruktör)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Instruktör)
+        </dd>
+                      
+        <dt>
+            @Html.DisplayNameFor(model => model.Certifikat)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Certifikat)
+        </dd>
+        
+    </dl>
+</div>
+<div>
+    @if (Model.CertPicture != "noPic")
+    {
+        <img src=@Model.CertPicture style="max-height:140px; max-width:200px" />
+    }
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.CertificateID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

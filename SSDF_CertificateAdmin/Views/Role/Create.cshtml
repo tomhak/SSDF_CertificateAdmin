@@ -1,0 +1,26 @@
+﻿@model IEnumerable<Microsoft.AspNet.Identity.EntityFramework.IdentityRole>
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Ny roll</h2>
+
+<style type="text/css">
+    #tbrole .c {
+        border: double;
+    }
+</style>
+
+@using (Html.BeginForm())
+{
+    <table id="tbrole">
+        <tr>
+            <td class="c">Lägg till namn för rollen</td>
+            <td class="c">
+                @Html.Editor("Name")
+            </td>
+        </tr>
+    </table>
+    <input type="submit" value="Skapa roll" />
+}
+

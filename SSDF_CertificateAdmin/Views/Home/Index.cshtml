@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>SSDF-Certifikat</h1>
+    <p class="lead">Ett verktyg för att administrera SSDF certifikat, både för dykare och fridykare.</p>
+    <p><a href="http://ssdf.se" class="btn btn-primary btn-lg">Till SSDF &raquo;</a></p>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Registrera nya certifikat</h2>
+        <p>
+            Verktyget kan användas för att registrera nya certifikat och ändra information i befintliga
+        </p>
+        <p>@Html.ActionLink("Certifikat", "Index", "Certificate", null, new { @class = "btn btn-default" })</p>
+    </div>
+    <div class="col-md-4">
+        <h2>Sök efter certifikat</h2>
+        <p>Alla certifikat är sökbara med personnummer</p>
+        
+    </div>
+    <div class="col-md-4">
+        <h2>Beställ dublettcertifikat</h2>
+        <p>Så småningom kommer en funktion för att kunna beställa dublettcertifkat</p>
+        
+    </div>
+</div>

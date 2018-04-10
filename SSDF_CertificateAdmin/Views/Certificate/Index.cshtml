@@ -1,0 +1,88 @@
+﻿@model  SSDF_CertificateAdmin.Repository.Pager<SSDF_CertificateAdmin.ViewModels.CertificateViewModel>
+
+@{
+    ViewBag.Title = "Certifikat";
+}
+
+<h2>Certifikat</h2>
+
+<div class="search-bar">
+    @using (Html.BeginForm("Index", "Certificate", FormMethod.Get))
+    {
+        @Html.Label("Sök (Personnummer / del av (ÅÅÅÅMMDD-NNNN))")
+        <br/>
+        @Html.TextBox("SearchText")
+        <input type="submit" value="Sök" class="search-button" />
+    }
+</div>
+<br />
+<p>
+    @Html.ActionLink("Nytt certifikat", "Create", null, new { @class = "btn btn-default" })
+</p>
+<br />
+<p>
+<h3>Utfärdade certifikat</h3>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Certifikat utfärdat
+        </th>
+        <th>
+            Förnamn
+        </th>
+        <th>
+            Efternamn
+        </th>
+        <th>
+           Personnummer
+        </th>
+        <th>
+            Certifikatnummer
+        </th>
+        <th>
+            Instruktör
+        </th>
+        <th>
+            Certifikat
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.CertificateDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Förnamn)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Efternamn)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Personnummer)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CertifikatNummer)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Instruktör)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Certifikat)
+        </td>
+        <td>
+            @Html.ActionLink("Ändra", "Edit", new { id=item.CertificateID }) |
+            @Html.ActionLink("Detaljer", "Details", new { id=item.CertificateID }) |
+            @Html.ActionLink("Ta bort", "Delete", new { id=item.CertificateID })
+        </td>
+    </tr>
+}
+    <tr>
+        <td colspan="8">
+            @Html.Partial("_PagingPartial", Model)
+        </td>
+    </tr>
+
+</table>

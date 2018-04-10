@@ -1,0 +1,42 @@
+﻿
+@model SSDF_CertificateAdmin.Models.EditUserViewModel
+
+@{
+    ViewBag.Title = "Ta bort";
+}
+
+<h2>Ta bort</h2>
+
+<h3>Är du säker på att du vill ta bort</h3>
+<div>
+    <h4>EditUserViewModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.userName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.userName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.email)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Ta bort" class="btn btn-default" /> |
+            @Html.ActionLink("Tillbaka till lista", "Index")
+        </div>
+    }
+</div>
+
