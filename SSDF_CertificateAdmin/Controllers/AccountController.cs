@@ -14,52 +14,15 @@ namespace SSDF_CertificateAdmin.Controllers
     [Authorize]
     public class AccountController : Controller
     {
-        //private ApplicationSignInManager _signInManager;
-        //private ApplicationUserManager _userManager;
-
-        //ApplicationDBContext context;
-
-
-        //public AccountController()
-        //{
-        //    context = new ApplicationDBContext();
-        //}
-
         public AccountController() : this(new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new SSDF_CertificateAdmin.Models.ApplicationDbContext()))) { }
-
-
+        
         public AccountController(UserManager<ApplicationUser> userManager)
         {
             UserManager = userManager;
-            //SignInManager = signInManager;
         }
-
-        //public ApplicationSignInManager SignInManager
-        //{
-        //    get
-        //    {
-        //        return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
-        //    }
-        //    private set 
-        //    { 
-        //        _signInManager = value; 
-        //    }
-        //}
-
+        
         public UserManager<ApplicationUser> UserManager { get; private set; }
-
-        //public ApplicationUserManager UserManager
-        //{
-        //    get
-        //    {
-        //        return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-        //    }
-        //    private set
-        //    {
-        //        _userManager = value;
-        //    }
-        //}
-
+                
         //
         // GET: /Account/Login
         [AllowAnonymous]
@@ -94,12 +57,13 @@ namespace SSDF_CertificateAdmin.Controllers
                      
         }
 
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin")]
         public ActionResult Register()
         {
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -200,7 +164,7 @@ namespace SSDF_CertificateAdmin.Controllers
             base.Dispose(disposing);
         }
 
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
 

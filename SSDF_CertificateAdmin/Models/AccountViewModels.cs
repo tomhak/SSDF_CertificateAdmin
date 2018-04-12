@@ -19,7 +19,7 @@ namespace SSDF_CertificateAdmin.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Verifiera lösenordet")]
-        [Compare("Lösenord", ErrorMessage =
+        [Compare("newPassword", ErrorMessage =
             "Lösenordet och Verifiera lösenordet matchar inte")]
         public string confirmPassword { get; set; }
     }

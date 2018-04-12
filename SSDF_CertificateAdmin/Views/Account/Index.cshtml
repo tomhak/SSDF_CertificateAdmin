@@ -29,9 +29,10 @@
                 @Html.DisplayFor(modelItem => item.email)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.userName }) |
-                @Html.ActionLink("Roles", "UserRoles", new { id = item.userName }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.userName })
+                @Html.ActionLink("Ändra", "Edit", new { id = item.userName }) |
+                @Html.ActionLink("Lösenord", "Manage", new { id = item.userName }) |
+                @Html.ActionLink("Roller", "UserRoles", new { id = item.userName }) |
+                @Html.ActionLink("Ta bort", "Delete", new { id = item.userName })
             </td>
         </tr>
     }
