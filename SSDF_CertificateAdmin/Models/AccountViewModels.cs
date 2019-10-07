@@ -6,22 +6,22 @@ namespace SSDF_CertificateAdmin.Models
 {
     public class ManageUserViewModel
     {
+        public ManageUserViewModel() { }
+        public ManageUserViewModel(ApplicationUser user)
+        {
+            this.userName = user.UserName;
+        }
+
         [Required]
-        [DataType(DataType.Password)]
-        [Display(Name = "Nuvarande lösenord")]
-        public string oldPassword { get; set; }
+        [Display(Name = "Användarnamn")]
+        public string userName { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "Lösenordet måste vara minst {2} tecken långt", MinimumLength = 6)]
-        [DataType(DataType.Password)]
+        [DataType(DataType.Text)]
         [Display(Name = "Nytt lösenord")]
         public string newPassword { get; set; }
-
-        [DataType(DataType.Password)]
-        [Display(Name = "Verifiera lösenordet")]
-        [Compare("newPassword", ErrorMessage =
-            "Lösenordet och Verifiera lösenordet matchar inte")]
-        public string confirmPassword { get; set; }
+      
     }
 
     public class LoginViewModel
@@ -35,7 +35,7 @@ namespace SSDF_CertificateAdmin.Models
         [Display(Name = "Lösenord")]
         public string password { get; set; }
 
-        [Display(Name = "Komma ihåg mig?")]
+        [Display(Name = "Komm ihåg mig?")]
         public bool rememberMe { get; set; }
     }
 

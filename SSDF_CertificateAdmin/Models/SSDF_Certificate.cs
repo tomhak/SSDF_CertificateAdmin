@@ -27,6 +27,8 @@ namespace SSDF_CertificateAdmin.Models
         public string CreatedBy { get; set; }
         public System.DateTime LastEditDate { get; set; }
         public string LastEditBy { get; set; }
+        public string InstructorNo { get; set; }
+        public string MachineID { get; set; }
     
         public virtual SSDF_CertCodes SSDF_CertCodes { get; set; }
     }

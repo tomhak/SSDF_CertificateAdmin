@@ -12,6 +12,7 @@ namespace SSDF_CertificateAdmin.Repository
     {
         private SSDF_CERTEntities1 db = new SSDF_CERTEntities1();
         private List<CertificateViewModel> vmCertifikats = new List<CertificateViewModel>();
+        private DateTime dateLimit = DateTime.Parse("2010-01-01");
         public List<CertificateViewModel> CreateCertificateViewModel()
         {
             var sSDF_Certificate = db.SSDF_Certificate.Include(s => s.SSDF_CertCodes);
@@ -20,15 +21,21 @@ namespace SSDF_CertificateAdmin.Repository
                 var tmpVMCert = new CertificateViewModel(cert);
                 vmCertifikats.Add(tmpVMCert);
             }
+           
             return vmCertifikats;
         }
 
         public List<CertificateViewModel> SearchCertificate(string serachTerm, List<CertificateViewModel> listToSerach)
         {
-            
-            if(!string.IsNullOrEmpty(serachTerm))
+            string a;
+
+
+            if (!string.IsNullOrEmpty(serachTerm))
             {
-                return listToSerach.Where(s => s.Personnummer.Contains(serachTerm)).ToList();
+                var newlist = listToSerach.Where(s => s.Personnummer.Contains(serachTerm)).ToList();
+                foreach (var m in newlist)
+                    a = m.Efternamn;
+                return newlist;
             }
             return listToSerach;
         }
@@ -50,7 +57,7 @@ namespace SSDF_CertificateAdmin.Repository
             return vmcert;
         }
 
-        public int SaveEditCertificate(CertificateViewModel vmCert)
+        public int SaveEditCertificate(CertificateViewModel vmCert, string loggedInUser)
         {
             SSDF_Certificate sDF_Certificate = db.SSDF_Certificate.Find(vmCert.CertificateID);
 
@@ -61,11 +68,10 @@ namespace SSDF_CertificateAdmin.Repository
             sDF_Certificate.FirstName = vmCert.Förnamn;
             sDF_Certificate.LastName = vmCert.Efternamn;
             sDF_Certificate.PersonNo = vmCert.Personnummer;
-            sDF_Certificate.OriginalPersNo = vmCert.OriginalPersNo;
             sDF_Certificate.Instructor = vmCert.Instruktör;
 
             //TODO Fixa
-            sDF_Certificate.LastEditBy = "Tommy";
+            sDF_Certificate.LastEditBy = loggedInUser;
             sDF_Certificate.LastEditDate = DateTime.Now;
 
             try
@@ -73,7 +79,7 @@ namespace SSDF_CertificateAdmin.Repository
                 db.Entry(sDF_Certificate).State = EntityState.Modified;
                 db.SaveChanges();
             }
-            catch
+            catch(Exception ex)
             {
                 return 99;
             }
@@ -81,7 +87,7 @@ namespace SSDF_CertificateAdmin.Repository
            return 0;
         }
 
-        public int SaveNewCertificate(CertificateViewModel vmCert)
+        public int SaveNewCertificate(CertificateViewModel vmCert, string loggedInUser)
         {
             SSDF_Certificate sDF_Certificate = new SSDF_Certificate();
 
@@ -92,13 +98,12 @@ namespace SSDF_CertificateAdmin.Repository
             sDF_Certificate.FirstName = vmCert.Förnamn;
             sDF_Certificate.LastName = vmCert.Efternamn;
             sDF_Certificate.PersonNo = vmCert.Personnummer;
-            sDF_Certificate.OriginalPersNo = vmCert.OriginalPersNo;
             sDF_Certificate.Instructor = vmCert.Instruktör;
 
             //TODO Fixa
-            sDF_Certificate.CreatedBy = "Tommy";
+            sDF_Certificate.CreatedBy = loggedInUser;
             sDF_Certificate.CreatedDate = DateTime.Now;
-            sDF_Certificate.LastEditBy = "Tommy";
+            sDF_Certificate.LastEditBy = loggedInUser;
             sDF_Certificate.LastEditDate = DateTime.Now;
 
             try

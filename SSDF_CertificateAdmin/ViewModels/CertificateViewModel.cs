@@ -12,17 +12,34 @@ namespace SSDF_CertificateAdmin.ViewModels
     public class CertificateViewModel
     {
         public int CertificateID { get; set; }
+        [Required]
         [DisplayName("Certifikat datum")]
         [DataType(DataType.Date)]
         public DateTime? CertificateDate  { get; set; }
+        [Required]
         public string Certifikat { get; set; }
+        [Required]
+        [StringLength(50, ErrorMessage = "Förnamn får vara max 50 tecken långt", MinimumLength = 1)]
         public string Förnamn { get; set; }
+        [Required]
+        [StringLength(50, ErrorMessage = "Efternamn får vara max 50 tecken långt", MinimumLength = 1)]
         public string Efternamn { get; set; }
+        [Required]
+        [DisplayName("Personnummer (ÅÅÅÅMMDD-NNNN)")]
+        [RegularExpression(@"/(19|20)?[0-9]{8}-[0-9]{4}/", ErrorMessage ="Personnummer skall ha formen ÅÅÅÅMMDD-NNNN" )]
         public string Personnummer  { get; set; }
-        [DisplayName("Registrerat Personnummer")]
-        public string  OriginalPersNo { get; set; }
+        [Required]
+        [RegularExpression(@"/(SWE)\/(F00)\/[A-Z]{2,}\/(1|2)?[0-9]{2}\/[0-9]{6}/", ErrorMessage = "Ett certifikatsnummer skall skrivas SWE/F00/XX/ÅÅ/000001")]
         public string CertifikatNummer { get; set; }
+        [Required]
+        //[RegularExpression(@"/(SWE)\/(F00)\/[A-Z]{2,}\/(1|2)?[0-9]{2}\/[0-9]{6}/", ErrorMessage = "Ett certifikatsnnmmer skall skrivas SWE/F00/XX/ÅÅ/000001")]
         public string Instruktör { get; set; }
+
+        [Required]
+        public string Instruktörsnummer { get; set; }
+
+        [DisplayName("RB maskintyp")]
+        public string MachineId { get; set; }
 
         public string CertPicture { get; set; }
 
@@ -36,10 +53,11 @@ namespace SSDF_CertificateAdmin.ViewModels
             Förnamn = cert.FirstName;
             Efternamn = cert.LastName;
             Personnummer = cert.PersonNo;
-            OriginalPersNo = cert.OriginalPersNo;
             CertifikatNummer = cert.CertificateNumber;
             Instruktör = cert.Instructor;
             CertPicture = addPicture(cert.CertificateLevel);
+            Instruktörsnummer = cert.InstructorNo;
+            MachineId = cert.MachineID;
         }
 
         private string addPicture(string cert)

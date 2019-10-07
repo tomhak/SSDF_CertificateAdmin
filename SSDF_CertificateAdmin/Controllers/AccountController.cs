@@ -8,12 +8,14 @@ using SSDF_CertificateAdmin.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Collections.Generic;
 using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security.DataProtection;
 
 namespace SSDF_CertificateAdmin.Controllers
 {
     [Authorize]
     public class AccountController : Controller
     {
+        
         public AccountController() : this(new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new SSDF_CertificateAdmin.Models.ApplicationDbContext()))) { }
         
         public AccountController(UserManager<ApplicationUser> userManager)
@@ -82,65 +84,37 @@ namespace SSDF_CertificateAdmin.Controllers
             return View(model);
         }
 
-        [AllowAnonymous]
-        public ActionResult Manage(ManageMessageId? message)
+        [Authorize(Roles = "Admin")]
+        public ActionResult Manage(string id,ManageMessageId? message)
         {
-            ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Ditt lösenord har ändrats."
-                : message == ManageMessageId.SetPasswordSuccess ? "Ditt lösenord har registrerats."
-                : message == ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
-                : message == ManageMessageId.Error ? "Ett fel har inträffat."
-                : "";
-            ViewBag.HasLocalPassword = HasPassword();
-            ViewBag.ReturnUrl = Url.Action("Manage");
-            return View();
+            var Db = new ApplicationDbContext();
+           
+            var user = Db.Users.First(u => u.UserName == id);
+            var model = new ManageUserViewModel(user);
+            return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Manage(ManageUserViewModel model)
         {
-            bool hasPassword = HasPassword();
-            ViewBag.HasLocalPassword = hasPassword;
-            ViewBag.ReturnUrl = Url.Action("Manage");
-            if (hasPassword)
-            {
+            
                 if (ModelState.IsValid)
                 {
-                    IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.oldPassword, model.newPassword);
+                var Db = new ApplicationDbContext();
+                var provider = new DpapiDataProtectionProvider("SSDF_CertificateAdmin");
+                UserManager.UserTokenProvider = new DataProtectorTokenProvider<ApplicationUser>(provider.Create("ASP.NET Identity"));
+                var user = Db.Users.First(u => u.UserName == model.userName);
+                var token = UserManager.GeneratePasswordResetToken(user.Id);
+                    IdentityResult result = await UserManager.ResetPasswordAsync(user.Id, token, model.newPassword);
                     if (result.Succeeded)
                     {
-                        return RedirectToAction("Manage", new { Message = ManageMessageId.ChangePasswordSuccess });
+                        return RedirectToAction("Index");
                     }
-                    else
-                    {
-                        AddErrors(result);
-                    }
+                
                 }
-            }
-            else
-            {
-                // User does not have a password so remove any validation errors caused by a missing OldPassword field
-                ModelState state = ModelState["OldPassword"];
-                if (state != null)
-                {
-                    state.Errors.Clear();
-                }
-
-                if (ModelState.IsValid)
-                {
-                    IdentityResult result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.newPassword);
-                    if (result.Succeeded)
-                    {
-                        return RedirectToAction("Manage", new { Message = ManageMessageId.SetPasswordSuccess });
-                    }
-                    else
-                    {
-                        AddErrors(result);
-                    }
-                }
-            }
+           
 
             // If we got this far, something failed, redisplay form
             return View(model);
@@ -167,25 +141,18 @@ namespace SSDF_CertificateAdmin.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
-
-            if (User.Identity.GetUserName() == "tomhak")
+             var Db = new ApplicationDbContext();
+            var users = Db.Users;
+            var model = new List<EditUserViewModel>();
+            foreach (var user in users)
             {
-                var Db = new ApplicationDbContext();
-                var users = Db.Users;
-                var model = new List<EditUserViewModel>();
-                foreach (var user in users)
-                {
-                    var u = new EditUserViewModel(user);
-                    model.Add(u);
-                }
-                return View(model);
+                var u = new EditUserViewModel(user);
+                model.Add(u);
             }
-            else
-            {
-                return RedirectToAction("Index", "Home");
-            }
-        }
+            return View(model);
+         }
 
+        [Authorize(Roles = "Admin")]
         [AllowAnonymous]
         public ActionResult Edit(string id, ManageMessageId? Message = null)
         {
@@ -197,6 +164,7 @@ namespace SSDF_CertificateAdmin.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(EditUserViewModel model)

@@ -1,13 +1,12 @@
 ﻿@model SSDF_CertificateAdmin.ViewModels.CertificateViewModel
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Detaljer";
 }
 
-<h2>Details</h2>
+<h2>Detaljer</h2>
 
 <div>
-    <h4>SSDF_Certificate</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -43,14 +42,6 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.OriginalPersNo)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.OriginalPersNo)
-        </dd>
-
-        <dt>
             @Html.DisplayNameFor(model => model.CertifikatNummer)
         </dt>
 
@@ -65,7 +56,22 @@
         <dd>
             @Html.DisplayFor(model => model.Instruktör)
         </dd>
-                      
+        <dt>
+            @Html.DisplayNameFor(model => model.Instruktörsnummer)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Instruktörsnummer)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MachineId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MachineId)
+        </dd>
+
         <dt>
             @Html.DisplayNameFor(model => model.Certifikat)
         </dt>
@@ -73,7 +79,7 @@
         <dd>
             @Html.DisplayFor(model => model.Certifikat)
         </dd>
-        
+
     </dl>
 </div>
 <div>
@@ -83,6 +89,6 @@
     }
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.CertificateID }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Ändra", "Edit", new { id = Model.CertificateID }) |
+    @Html.ActionLink("Tillbaka till listan", "Index")
 </p>

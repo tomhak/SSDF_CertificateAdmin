@@ -6,12 +6,14 @@ using SSDF_CertificateAdmin.Models;
 using System.Linq;
 using SSDF_CertificateAdmin.Repository;
 using SSDF_CertificateAdmin.ViewModels;
+using Microsoft.AspNet.Identity;
 
 namespace SSDF_CertificateAdmin.Controllers
 {
     [Authorize]
     public class CertificateController : Controller
     {
+         
         
         private SSDF_CERTEntities1 db = new SSDF_CERTEntities1();
         //private List<CertificateViewModel> vmCertifikats = new List<CertificateViewModel>();
@@ -50,7 +52,7 @@ namespace SSDF_CertificateAdmin.Controllers
             int certificatePerPage = 50;
             int inEachPageCertificateEndAt = pageNo * certificatePerPage;
             int inEachPagecertificateStarsFrom = inEachPageCertificateEndAt - certificatePerPage;
-            var certificates = vmSerchedList.OrderBy(e => e.CertificateID).Skip(inEachPagecertificateStarsFrom).Take(certificatePerPage).ToList();
+            var certificates = vmSerchedList.OrderByDescending(e => e.CertificateDate).Skip(inEachPagecertificateStarsFrom).Take(certificatePerPage).ToList();
             Pager<CertificateViewModel> pager = new Pager<CertificateViewModel>(certificates.AsQueryable(), pageNo, certificatePerPage, totalCertificates,SearchText);
 
             return View(pager);
@@ -91,7 +93,7 @@ namespace SSDF_CertificateAdmin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var ok = certResp.SaveNewCertificate(vmCert);
+                var ok = certResp.SaveNewCertificate(vmCert, User.Identity.GetUserName());
                 return RedirectToAction("Index");
             }
 
@@ -125,7 +127,7 @@ namespace SSDF_CertificateAdmin.Controllers
             if (ModelState.IsValid)
             {
                 //TODO fixa felhantering
-                var ok = certResp.SaveEditCertificate(vmCert);
+                var ok = certResp.SaveEditCertificate(vmCert, User.Identity.GetUserName());
                 //db.Entry(sSDF_Certificate).State = EntityState.Modified;
                 //db.SaveChanges();
                 return RedirectToAction("Index");

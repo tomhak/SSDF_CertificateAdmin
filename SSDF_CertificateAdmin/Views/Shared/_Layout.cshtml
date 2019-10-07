@@ -19,13 +19,18 @@
                 </button>
                 @Html.ActionLink("SSDF Certifikatdatabas", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
+            
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Hem", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Om", "About", "Home")</li>
+                    <li>@*@Html.ActionLink("Om", "About", "Home")*@</li>
                     <li>@Html.ActionLink("Certifikat", "Index", "Certificate")</li>
-                    <li>@Html.ActionLink("Kontakt", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("Admin", "Index", "Account")</li>
+                    <li>@*@Html.ActionLink("Kontakt", "Contact", "Home")*@</li>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li> @Html.ActionLink("Admin", "Index", "Account") </li>
+                    }
+
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
